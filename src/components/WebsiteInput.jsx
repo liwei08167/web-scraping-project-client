@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WebsiteInput = ({ setFetchedData }) => {
+const WebsiteInput = ({ setFetchedData, setUrlValue }) => {
   const classes = useStyles();
 
   return (
@@ -60,6 +60,7 @@ const WebsiteInput = ({ setFetchedData }) => {
             .post("/", values)
             .then((data) => {
               console.log("hey", data.data);
+              setUrlValue(values.website);
               setFetchedData(data.data);
             })
             .catch((err) => {
