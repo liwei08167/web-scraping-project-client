@@ -46,7 +46,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WebsiteInput = ({ setFetchedData, setUrlValue }) => {
+const WebsiteInput = ({
+  setFetchedData,
+  setUrlValue,
+  setLoading,
+  setErrorRes,
+}) => {
   const classes = useStyles();
 
   return (
@@ -54,19 +59,22 @@ const WebsiteInput = ({ setFetchedData, setUrlValue }) => {
       <Formik
         initialValues={initValues}
         validationSchema={validationSchema}
-        onSubmit={(values, action) => {
-          console.log(values);
-          axios
-            .post("/", values)
-            .then((data) => {
-              console.log("hey", data.data);
-              setUrlValue(values.website);
-              setFetchedData(data.data);
-            })
-            .catch((err) => {
-              console.log(err.response.data);
-            });
-          action.resetForm();
+        onSubmit={async (values, action) => {
+          try {
+            setErrorRes("");
+            setLoading(true);
+            const data = await axios.post("/", values);
+
+            console.log("hey", data.data);
+            setUrlValue(values.website);
+            setFetchedData(data.data);
+            setLoading(false);
+            action.resetForm();
+          } catch (err) {
+            setErrorRes(err);
+            setLoading(false);
+            console.log(err.response.data);
+          }
         }}
       >
         {(formik) => {

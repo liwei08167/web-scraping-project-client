@@ -54,13 +54,21 @@ const useStyles = makeStyles({
   },
 });
 
-const groupByHeadings = (headingList, level) => {
-  return headingList.reduce((acc, obj) => {
-    let key = obj[level];
-    if (!acc[key]) {
-      acc[key] = [];
+const groupByHeadings = (headingList, headingProperty) => {
+  return headingList.reduce((acc, current) => {
+    let heading = current[headingProperty];
+    if (!acc[heading]) {
+      acc[heading] = [];
     }
-    acc[key].push(obj);
+    acc[heading].push(current);
+    // const uniqueLevel = acc[heading]
+    //   .map((e) => e.level)
+    //   .filter((v, i, arr) => arr.indexOf(v) === i)
+    //   .sort((a, b) => a - b)
+    //   .join(", ");
+
+    // acc[heading].level = uniqueLevel;
+
     return acc;
   }, {});
 };
@@ -71,7 +79,7 @@ const HeadingsTable = ({ headingsDetails }) => {
 
   let groupedHeadings =
     headingsDetails && groupByHeadings(headingsDetails, "headings");
-
+  console.log({ groupedHeadings });
   let uniqueLevelArr = [];
   for (const heading in groupedHeadings) {
     uniqueLevelArr.push({
@@ -82,7 +90,7 @@ const HeadingsTable = ({ headingsDetails }) => {
         .sort((a, b) => a - b),
     });
   }
-  console.log({ uniqueLevelArr });
+  // console.log({ uniqueLevelArr });
 
   return (
     <Grid item xs={12}>

@@ -46,7 +46,10 @@ const ResultsComp = ({ fetchedData, urlValue }) => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             Title:
-            <span style={{ color: "black" }}> {title}</span>
+            <span style={{ color: "black", wordWrap: "break-word" }}>
+              {" "}
+              {title}
+            </span>
           </Paper>
         </Grid>
         <Grid item xs={6}>
@@ -63,21 +66,21 @@ const ResultsComp = ({ fetchedData, urlValue }) => {
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Grid container xs={12}>
+            <Grid container>
               <HeadingsTable headingsDetails={headingsDetails} />
             </Grid>
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Grid container xs={12}>
-              <ImagesComp />
+            <Grid container>
+              <ImagesComp imageDetails={imageDetails} />
             </Grid>
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Grid container xs={12}>
+            <Grid container>
               <LinksComp />
             </Grid>
           </Paper>
