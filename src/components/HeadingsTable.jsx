@@ -98,7 +98,7 @@ const HeadingsTable = ({ headingsDetails }) => {
         <Typography variant="h5" gutterBottom>
           Heading counts: {headingsDetails && headingsDetails.length}
         </Typography>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           Details:
           <Button
             onClick={() => {

@@ -81,7 +81,7 @@ const ResultsComp = ({ fetchedData, urlValue }) => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <Grid container>
-              <LinksComp />
+              <LinksComp linksDetails={linksDetails} />
             </Grid>
           </Paper>
         </Grid>

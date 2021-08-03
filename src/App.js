@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import ResultsComp from "./components/ResultsComp";
 import WebsiteInput from "./components/WebsiteInput";
+import axios from "axios";
 
 const App = () => {
   const [fetchedData, setFetchedData] = useState("");

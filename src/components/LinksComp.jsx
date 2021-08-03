@@ -13,16 +13,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LinksComp = () => {
+const LinksComp = ({ linksDetails }) => {
   const classes = useStyles();
 
   const [mainlinkOpen, setMainLinkOpen] = useState(false);
+  const { external, internal, totalLinks, uncategorized } = linksDetails;
 
   return (
     <Grid item xs={12}>
       <Grid item xs={12}>
         <Typography variant="h5" gutterBottom>
-          links details:
+          links counts: {totalLinks}
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          details:
           <Button
             onClick={() => {
               setMainLinkOpen(!mainlinkOpen);
@@ -36,38 +40,28 @@ const LinksComp = () => {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Typography variant="subtitle1" gutterBottom>
-              internal link counts:
+              internal counts: {internal.count}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" gutterBottom>
-              external link counts:
+              external counts:{external.count}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" gutterBottom>
-              uncategorized link counts:
-              <span>30</span>
+              uncategorized counts: {uncategorized.count}
             </Typography>
           </Grid>
         </Grid>
         <Divider variant="fullWidth" style={{ margin: "1rem 0" }} />
         <Grid item xs={12}>
-          {/* <Typography variant="h6" gutterBottom>
-            show links:
-            <Button
-              onClick={() => {
-                setLinkDetailsOpen(!linkDetailsOpen);
-              }}
-            >
-              {linkDetailsOpen ? <ExpandMoreIcon /> : <NavigateNextIcon />}
-            </Button>
-          </Typography> */}
-          <LinksTable />
+          <LinksTable
+            external={external}
+            internal={internal}
+            uncategorized={uncategorized}
+          />
         </Grid>
-        {/* <Collapse in={linkDetailsOpen} timeout="auto" unmountOnExit>
-          <h1>happy pig</h1>
-        </Collapse> */}
       </Collapse>
     </Grid>
   );

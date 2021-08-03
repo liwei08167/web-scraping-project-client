@@ -46,15 +46,24 @@ const useStyles2 = makeStyles({
   },
 });
 
-const LinksTable = () => {
+const LinksTable = (linksProps) => {
   const classes = useStyles2();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [age, setAge] = useState([10, 20, 30, 50]);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const options = Object.keys(linksProps).slice(0, -1);
+
+  console.log({ options, linksProps });
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    selectedOption !== "" &&
+    rowsPerPage -
+      Math.min(
+        rowsPerPage,
+        linksProps[selectedOption].weblinks.length - page * rowsPerPage
+      );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -67,7 +76,8 @@ const LinksTable = () => {
 
   //here is for the form dropdown
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setSelectedOption(event.target.value);
+    setPage(0);
   };
 
   const handleClose = () => {
@@ -81,77 +91,94 @@ const LinksTable = () => {
   return (
     <>
       <FormControl
-        style={{ minWidth: "15rem", margin: "1rem 0" }}
-        className={classes.formControl}
+        style={{ minWidth: "12rem", margin: ".5rem 0" }}
         variant="outlined"
+        size="small"
       >
-        <InputLabel style={{ fontSize: "1rem" }}>choose link types</InputLabel>
+        <InputLabel
+          required
+          style={{
+            fontSize: "1rem",
+            color: "blue",
+            textTransform: "capitalize",
+          }}
+        >
+          choose link types
+        </InputLabel>
         <Select
-          labelId="demo-controlled-open-select-label"
           open={open}
           onClose={handleClose}
           onOpen={handleOpen}
-          value={age}
+          value={selectedOption}
           onChange={handleChange}
         >
-          {age && age.map((el) => <MenuItem value={el}>{el}</MenuItem>)}
+          {options &&
+            options.map((el) => (
+              <MenuItem value={el} key={el}>
+                {el}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
 
       <Grid item xs={12}>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="custom pagination table">
-            <TableBody>
-              {(rowsPerPage > 0
-                ? rows.slice(
+        {selectedOption !== "" && (
+          <TableContainer component={Paper} style={{ wordBreak: "break-word" }}>
+            <Table aria-label="custom pagination table">
+              <TableBody>
+                {(
+                  selectedOption !== "" &&
+                  rowsPerPage > 0 &&
+                  linksProps[selectedOption].weblinks.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                : rows
-              ).map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    style={{ padding: ".5rem" }}
-                  >
-                    {row.name}
-                  </TableCell>
-                  <TableCell style={{ width: 160 }} align="right">
-                    {row.calories}
-                  </TableCell>
-                  <TableCell style={{ width: 160 }} align="right">
-                    {row.fat}
-                  </TableCell>
+                ).map((link, index) => (
+                  <TableRow key={index}>
+                    <TableCell style={{ width: "10%" }} align="left">
+                      {index + 1}.
+                    </TableCell>
+                    <TableCell
+                      style={{ width: "80%", padding: ".7rem" }}
+                      align="left"
+                    >
+                      <a href={link}>{link}</a>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {emptyRows > 0 && (
+                  <TableRow>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[
+                      10, 15, 25,
+                      // { label: "All", value: -1 },
+                    ]}
+                    colSpan={3}
+                    count={
+                      selectedOption !== "" &&
+                      linksProps[selectedOption].weblinks.length
+                    }
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: { "aria-label": "rows per page" },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
                 </TableRow>
-              ))}
-
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                  colSpan={3}
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    inputProps: { "aria-label": "rows per page" },
-                    native: true,
-                  }}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        )}
       </Grid>
     </>
   );
