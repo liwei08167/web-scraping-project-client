@@ -64,14 +64,12 @@ const WebsiteInput = ({
             setErrorRes("");
             setLoading(true);
             const data = await axios.post("/", values);
-
-            console.log("hey", data.data);
             setUrlValue(values.website);
             setFetchedData(data.data);
             setLoading(false);
             action.resetForm();
           } catch (err) {
-            setErrorRes(err);
+            setErrorRes(err.response.data);
             setLoading(false);
             console.log(err.response.data);
           }

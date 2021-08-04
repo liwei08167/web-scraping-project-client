@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import ResultsComp from "./components/ResultsComp";
 import WebsiteInput from "./components/WebsiteInput";
-import axios from "axios";
 
 const App = () => {
   const [fetchedData, setFetchedData] = useState("");
@@ -25,7 +24,7 @@ const App = () => {
         setErrorRes={setErrorRes}
       />
       {loading && <CircularProgress size={50} />}
-      {errorRes && !loading && "Error..."}
+      {errorRes && !loading && errorRes}
       {fetchedData !== "" && !loading && !errorRes && (
         <ResultsComp fetchedData={fetchedData} urlValue={urlValue} />
       )}
