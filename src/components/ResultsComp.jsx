@@ -65,22 +65,18 @@ const ResultsComp = ({ fetchedData, urlValue }) => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          {headingsDetails.length > 0 && (
-            <Paper className={classes.paper}>
-              <Grid container>
-                <HeadingsTable headingsDetails={headingsDetails} />
-              </Grid>
-            </Paper>
-          )}
+          <Paper className={classes.paper}>
+            <Grid container>
+              <HeadingsTable headingsDetails={headingsDetails} />
+            </Grid>
+          </Paper>
         </Grid>
         <Grid item xs={12}>
-          {imageDetails.length > 0 && (
-            <Paper className={classes.paper}>
-              <Grid container>
-                <ImagesComp imageDetails={imageDetails} />
-              </Grid>
-            </Paper>
-          )}
+          <Paper className={classes.paper}>
+            <Grid container>
+              <ImagesComp imageDetails={imageDetails} />
+            </Grid>
+          </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>

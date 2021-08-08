@@ -7,6 +7,13 @@ import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 
+const useStyles1 = makeStyles((theme) => ({
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
+
 const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
   const classes = useStyles1();
   const theme = useTheme();
@@ -70,13 +77,6 @@ const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
 };
 
 export default TablePaginationActions;
-
-const useStyles1 = makeStyles((theme) => ({
-  root: {
-    flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
-  },
-}));
 
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,

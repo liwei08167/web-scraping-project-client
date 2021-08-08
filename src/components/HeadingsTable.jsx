@@ -80,16 +80,18 @@ const HeadingsTable = ({ headingsDetails }) => {
         <Typography variant="h5" gutterBottom>
           Heading counts: {headingsDetails && headingsDetails.length}
         </Typography>
-        <Typography variant="h6" gutterBottom>
-          Details:
-          <Button
-            onClick={() => {
-              setOpen(!open);
-            }}
-          >
-            {open ? <ExpandMoreIcon /> : <NavigateNextIcon />}
-          </Button>
-        </Typography>
+        {headingsDetails.length > 0 && (
+          <Typography variant="h6" gutterBottom>
+            Details:
+            <Button
+              onClick={() => {
+                setOpen(!open);
+              }}
+            >
+              {open ? <ExpandMoreIcon /> : <NavigateNextIcon />}
+            </Button>
+          </Typography>
+        )}
       </Grid>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Grid item xs={12}>

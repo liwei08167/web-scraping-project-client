@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Table,
@@ -20,14 +19,7 @@ import {
 
 import TablePaginationActions from "./TablePaginationActions";
 
-const useStyles2 = makeStyles({
-  table: {
-    minWidth: 500,
-  },
-});
-
 const LinksTable = (linksProps) => {
-  const classes = useStyles2();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
@@ -35,26 +27,20 @@ const LinksTable = (linksProps) => {
 
   const options = Object.keys(linksProps).slice(0, -1);
 
-  console.log({ options, linksProps });
-
-  // const emptyRows =
-  //   selectedOption !== "" &&
-  //   rowsPerPage -
-  //     Math.min(
-  //       rowsPerPage,
-  //       linksProps[selectedOption].weblinks.length - page * rowsPerPage
-  //     );
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    console.log(event.target.value);
+    if (event.target.value === "-1") {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    } else {
+      setRowsPerPage(parseInt(event.target.value));
+    }
   };
 
-  //here is for the form dropdown
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
     setPage(0);
@@ -110,13 +96,12 @@ const LinksTable = (linksProps) => {
           <TableContainer component={Paper} style={{ wordBreak: "break-word" }}>
             <Table aria-label="custom pagination table">
               <TableBody>
-                {(
-                  selectedOption !== "" &&
-                  rowsPerPage > 0 &&
-                  linksProps[selectedOption].weblinks.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                {(selectedOption !== "" && rowsPerPage > 0 && rowsPerPage > -1
+                  ? linksProps[selectedOption].weblinks.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : linksProps[selectedOption].weblinks
                 ).map((link, index) => (
                   <TableRow key={index}>
                     <TableCell style={{ width: "10%" }} align="left">
@@ -144,8 +129,10 @@ const LinksTable = (linksProps) => {
                 <TableRow>
                   <TablePagination
                     rowsPerPageOptions={[
-                      10, 15, 25,
-                      // { label: "All", value: -1 },
+                      10,
+                      15,
+                      25,
+                      { label: "All", value: -1 },
                     ]}
                     colSpan={3}
                     count={

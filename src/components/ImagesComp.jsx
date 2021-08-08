@@ -32,38 +32,38 @@ const ImagesComp = ({ imageDetails }) => {
     maxImage &&
     filteredImage[filteredImage.findIndex((num) => num.imageSize === maxImage)];
 
-  // const isValidImageUrl = maxImageItem && maxImageItem.src.startsWith("http");
+  const isValidImageUrl = maxImageItem && maxImageItem.src.startsWith("http");
 
-  let newSrcUrl = null;
+  // let newSrcUrl = null;
 
-  const displayImage = (filteredImage, maxImageItem, defaultImageUrl) => {
-    var expression =
-      /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+  // const displayImage = (filteredImage, maxImageItem, defaultImageUrl) => {
+  //   var expression =
+  //     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
 
-    const regex = new RegExp(expression);
-    if (maxImageItem) {
-      newSrcUrl =
-        maxImageItem.src && maxImageItem.src.startsWith("http")
-          ? maxImageItem.src
-          : "https:" + maxImageItem.src;
-      const isValidUrl = regex.test(newSrcUrl);
+  //   const regex = new RegExp(expression);
+  //   if (maxImageItem) {
+  //     newSrcUrl =
+  //       maxImageItem.src && maxImageItem.src.startsWith("http")
+  //         ? maxImageItem.src
+  //         : "https:" + maxImageItem.src;
+  //     const isValidUrl = regex.test(newSrcUrl);
 
-      if (isValidUrl) {
-        return newSrcUrl;
-      } else {
-        return defaultImageUrl;
-      }
-    } else {
-      if (filteredImage.length > 0) {
-        newSrcUrl = filteredImage[0].src.startsWith("http")
-          ? filteredImage[0].src
-          : "https:" + filteredImage[0].src;
-        return regex.test(newSrcUrl) ? newSrcUrl : defaultImageUrl;
-      } else {
-        return defaultImageUrl;
-      }
-    }
-  };
+  //     if (isValidUrl) {
+  //       return newSrcUrl;
+  //     } else {
+  //       return defaultImageUrl;
+  //     }
+  //   } else {
+  //     if (filteredImage.length > 0) {
+  //       newSrcUrl = filteredImage[0].src.startsWith("http")
+  //         ? filteredImage[0].src
+  //         : "https:" + filteredImage[0].src;
+  //       return regex.test(newSrcUrl) ? newSrcUrl : defaultImageUrl;
+  //     } else {
+  //       return defaultImageUrl;
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -72,16 +72,18 @@ const ImagesComp = ({ imageDetails }) => {
           <Typography variant="h5" gutterBottom>
             Image counts: {imageDetails && imageDetails.length}
           </Typography>
-          <Typography variant="h6" gutterBottom>
-            Details:
-            <Button
-              onClick={() => {
-                setImgOpen(!imgOpen);
-              }}
-            >
-              {imgOpen ? <ExpandMoreIcon /> : <NavigateNextIcon />}
-            </Button>
-          </Typography>
+          {imageDetails.length > 0 && (
+            <Typography variant="h6" gutterBottom>
+              Details:
+              <Button
+                onClick={() => {
+                  setImgOpen(!imgOpen);
+                }}
+              >
+                {imgOpen ? <ExpandMoreIcon /> : <NavigateNextIcon />}
+              </Button>
+            </Typography>
+          )}
         </Grid>
         <Collapse in={imgOpen} timeout="auto" unmountOnExit>
           <Grid container spacing={2}>
@@ -95,7 +97,7 @@ const ImagesComp = ({ imageDetails }) => {
                   <span>
                     {maxImageItem
                       ? `${maxImageItem.height} x ${maxImageItem.width}`
-                      : "none"}
+                      : "---"}
                   </span>
                 </Typography>
                 <Typography variant="h6" gutterBottom>
@@ -113,17 +115,9 @@ const ImagesComp = ({ imageDetails }) => {
               <Paper className={classes.paper} style={{ height: "20vh" }}>
                 <img
                   src={
-                    // isValidImageUrl
-                    //   ? maxImageItem.src
-                    // isValid(maxImageItem.src)
-                    // `http:` + maxImageItem.src
-                    displayImage(
-                      filteredImage,
-                      maxImageItem,
-                      "https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg"
-                    )
-                    // `https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg
-                    //  `
+                    isValidImageUrl
+                      ? maxImageItem.src
+                      : "https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg"
                   }
                   alt="largest img"
                   style={{
